@@ -746,10 +746,9 @@ abstract contract LynxAuthorization {
      * NOTE: Renouncing ownership will leave the contract without an owner,
      * thereby removing any functionality that is only available to the owner.
      */
-    function renounceOwnership(address newOwner) public onlyOwner {
-        address previousOwner = owner;
-        newOwner = address(0);
-        emit OwnershipRenounced(previousOwner, newOwner);
+    function renounceOwnership() public onlyOwner {
+        emit OwnershipRenounced(owner, address(0));
+        owner = address(0);
     }
 
     /**
