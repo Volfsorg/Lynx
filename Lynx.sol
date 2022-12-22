@@ -3,10 +3,10 @@
 pragma solidity ^0.8.17;
 
 /**
- *                                                  (((((((((((
- *                                       (((((((((((           (((((((((((
- *                                 (((((((                               (((((((
- *                             (((((                                           (((((
+ *                                                (((((((((((((((
+ *                                      ((((((((((               ((((((((((
+ *                                (((((((                                 (((((((
+ *                            (((((                                             (((((
  *                         ((((                                         (  /        ((((
  *                      (((                                          /((                (((
  *                   (((             (                            *((.                     (((
@@ -44,9 +44,9 @@ pragma solidity ^0.8.17;
  *                                (((((((                                 (((((((
  *                                      ((((((((((               ((((((((((
  *                                                (((((((((((((((
- * 
- * 
- * 
+ *
+ *
+ *
  *  *******            *******            *******    *********         *******    ********         ********
  *  *******             *******          *******     **********        *******     ********       ********
  *  *******              *******        *******      ***********       *******      ********     ********
@@ -61,8 +61,8 @@ pragma solidity ^0.8.17;
  *  **********************      ********             *******        **********      ********     ********
  *  **********************      ********             *******         *********     ********       ********
  *  **********************      ********             *******          ********    ********         ********
- * 
- * 
+ *
+ *
  *  *************  ***  ***         ***        ***        ****        ***     **********     **************
  *  ***            ***  *****       ***       *****       *****       ***   ****      ****   ***
  *  ***            ***  ** ****     ***      *** ***      *******     ***  ***          ***  ***
@@ -71,232 +71,29 @@ pragma solidity ^0.8.17;
  *  ***            ***  **      *** ***   *****   *****   ***     *******  ***          ***  ***
  *  ***            ***  **       ******  ****       ****  ***       *****   ****      ****   ***
  *  ***            ***  **         ****  ****       ****  ***        ****     **********     **************
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  *  =====================================================
  *                    TABLE OF CONTENTS
  *  =====================================================
- * 
- *  Libraries:
- *     library SafeMath..........................100-299
- *  
+ *
  *  Interfaces:
- *     interface IERC20..........................301-370
- *     interface IERC20Metadata..................372-387
- *     interface IJoeFactory.....................389-411
- *     interface IJoePair........................413-475
- *     interface IJoeRouter01....................477-628
- *     interface IJoeRouter02....................630-675
- *     interface ILynxDividendDistributor........677-685
- * 
+ *     interface IERC20..........................102-171
+ *     interface IERC20Metadata..................173-188
+ *     interface IJoeFactory.....................190-212
+ *     interface IJoePair........................214-276
+ *     interface IJoeRouter01....................278-429
+ *     interface IJoeRouter02....................431-476
+ *     interface ILynxDividendDistributor........478-486
+ *
  *  Contracts:
- *     contract LynxAuthorization................687-769
- *     contract LynxDividendDistributor..........771-963
- *     contract Lynx (main contract)............965-1535
+ *     contract LynxAuthorization................488-571
+ *     contract LynxDividendDistributor..........573-776
+ *     contract Lynx (main contract)............778-1337
  */
 
-
-library SafeMath {
-    /**
-     * @dev Returns the addition of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            uint256 c = a + b;
-            if (c < a) return (false, 0);
-            return (true, c);
-        }
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
-     */
-    function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b > a) return (false, 0);
-            return (true, a - b);
-        }
-    }
-
-    /**
-     * @dev Returns the multiplication of two unsigned integers, with an overflow flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-            // benefit is lost if 'b' is also tested.
-            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-            if (a == 0) return (true, 0);
-            uint256 c = a * b;
-            if (c / a != b) return (false, 0);
-            return (true, c);
-        }
-    }
-
-    /**
-     * @dev Returns the division of two unsigned integers, with a division by zero flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a / b);
-        }
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers, with a division by zero flag.
-     *
-     * _Available since v3.4._
-     */
-    function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a % b);
-        }
-    }
-
-    /**
-     * @dev Returns the addition of two unsigned integers, reverting on
-     * overflow.
-     *
-     * Counterpart to Solidity's `+` operator.
-     *
-     * Requirements:
-     *
-     * - Addition cannot overflow.
-     */
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a + b;
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, reverting on
-     * overflow (when the result is negative).
-     *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
-     */
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a - b;
-    }
-
-    /**
-     * @dev Returns the multiplication of two unsigned integers, reverting on
-     * overflow.
-     *
-     * Counterpart to Solidity's `*` operator.
-     *
-     * Requirements:
-     *
-     * - Multiplication cannot overflow.
-     */
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a * b;
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers, reverting on
-     * division by zero. The result is rounded towards zero.
-     *
-     * Counterpart to Solidity's `/` operator.
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a / b;
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * reverting when dividing by zero.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
-        return a % b;
-    }
-
-    /**
-     * @dev Returns the subtraction of two unsigned integers, reverting with custom message on
-     * overflow (when the result is negative).
-     *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {trySub}.
-     *
-     * Counterpart to Solidity's `-` operator.
-     *
-     * Requirements:
-     *
-     * - Subtraction cannot overflow.
-     */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        unchecked {
-            require(b <= a, errorMessage);
-            return a - b;
-        }
-    }
-
-    /**
-     * @dev Returns the integer division of two unsigned integers, reverting with custom message on
-     * division by zero. The result is rounded towards zero.
-     *
-     * Counterpart to Solidity's `/` operator. Note: this function uses a
-     * `revert` opcode (which leaves remaining gas untouched) while Solidity
-     * uses an invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a / b;
-        }
-    }
-
-    /**
-     * @dev Returns the remainder of dividing two unsigned integers. (unsigned integer modulo),
-     * reverting with custom message when dividing by zero.
-     *
-     * CAUTION: This function is deprecated because it requires allocating memory for the error
-     * message unnecessarily. For custom revert reasons use {tryMod}.
-     *
-     * Counterpart to Solidity's `%` operator. This function uses a `revert`
-     * opcode (which leaves remaining gas untouched) while Solidity uses an
-     * invalid opcode to revert (consuming all remaining gas).
-     *
-     * Requirements:
-     *
-     * - The divisor cannot be zero.
-     */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a % b;
-        }
-    }
-}
 
 interface IERC20 {
     /**
@@ -687,7 +484,7 @@ interface ILynxDividendDistributor {
 abstract contract LynxAuthorization {
     address internal owner;
     mapping (address => bool) internal authorizations;
-    
+
     constructor(address _owner) {
         owner = _owner;
         authorizations[_owner] = true;
@@ -714,6 +511,7 @@ abstract contract LynxAuthorization {
      Can only be called by the current owner.
      */
     function authorize(address auth) public onlyOwner {
+        require(auth != address(0), "Address can not be 0");
         authorizations[auth] = true;
     }
 
@@ -722,6 +520,7 @@ abstract contract LynxAuthorization {
      Can only be called by the current owner.
      */
     function unauthorize(address auth) public onlyOwner {
+        require(auth != address(0), "Address can not be 0");
         authorizations[auth] = false;
     }
 
@@ -759,16 +558,15 @@ abstract contract LynxAuthorization {
         require(newOwner != address(0), "Owner can not be 0");
         address previousOwner = owner;
         owner = newOwner;
-        emit OwnershipTransfered(previousOwner, newOwner);
+        emit OwnershipTransferred(previousOwner, newOwner);
     }
 
     event OwnershipRenounced(address indexed previousOwner, address indexed newOwner);
 
-    event OwnershipTransfered(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 }
 
 contract LynxDividendDistributor is ILynxDividendDistributor {
-    using SafeMath for uint256;
     address _token;
 
     struct Share {
@@ -797,14 +595,6 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
 
     uint256 currentIndex;
 
-    bool initialized;
-
-    modifier initialization() {
-        require(!initialized);
-        _;
-        initialized = true;
-    }
-
     modifier onlyToken() {
         require(msg.sender == _token);
         _;
@@ -817,7 +607,8 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
 
     function claimDividend() external {
         distributeDividend(msg.sender);
-    } 
+        emit DividendClaimed(msg.sender);
+    }
 
     function deposit() external payable override onlyToken {
         uint256 balanceBefore = reflectionToken.balanceOf(address(this));
@@ -828,13 +619,15 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
         router.swapExactAVAXForTokensSupportingFeeOnTransferTokens {
             value: msg.value
         }
-        
+
         (0, path, address(this), block.timestamp);
 
-        uint256 amount = reflectionToken.balanceOf(address(this)).sub(balanceBefore);
+        uint256 amount = reflectionToken.balanceOf(address(this)) - balanceBefore;
 
-        totalDividends = totalDividends.add(amount);
-        dividendsPerShare = dividendsPerShare.add(dividendsPerShareAccuracyFactor.mul(amount).div(totalShares));
+        totalDividends = totalDividends + amount;
+        dividendsPerShare = dividendsPerShare + dividendsPerShareAccuracyFactor * amount / totalShares;
+
+        emit Deposited(amount, totalDividends, dividendsPerShare);
     }
 
     function distributeDividend(address shareholder) internal {
@@ -849,13 +642,13 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
         // If shareholder has earnings then distribute.
         if (amount > 0) {
             // Update totals.
-            totalDistributed = totalDistributed.add(amount);
+            totalDistributed = totalDistributed + amount;
             // Transfer shares to holder.
             reflectionToken.transfer(shareholder, amount);
             // Update shareholderClaims.
             shareholderClaims[shareholder] = block.timestamp;
             // Update shareholder totals.
-            shares[shareholder].totalRealised = shares[shareholder].totalRealised.add(amount);
+            shares[shareholder].totalRealised = shares[shareholder].totalRealised + amount;
             shares[shareholder].totalExcluded = getCumulativeDividends(shares[shareholder].amount);
         }
     }
@@ -881,20 +674,22 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
                 distributeDividend(shareholders[currentIndex]);
             }
 
-            gasUsed = gasUsed.add(gasLeft.sub(gasleft()));
+            gasUsed = gasUsed + gasLeft - gasleft();
             gasLeft = gasleft();
             currentIndex++;
             iterations++;
         }
+
+        emit Processed (shareholderCount, gasUsed, gasLeft, iterations);
     }
 
     function shouldDistribute(address shareholder) internal view returns (bool) {
         // Check if both minPeriod & minDistribution have been reached.
         return shareholderClaims[shareholder] + minPeriod < block.timestamp && getUnpaidEarnings(shareholder) > minDistribution;
     }
- 
+
     function getCumulativeDividends(uint256 share) internal view returns (uint256) {
-        return share.mul(dividendsPerShare).div(dividendsPerShareAccuracyFactor);
+        return share * dividendsPerShare / dividendsPerShareAccuracyFactor;
     }
 
     function getMinDistribution() external view  returns (uint256) {
@@ -917,18 +712,23 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
             return 0;
         }
 
-        return shareholderTotalDividends.sub(shareholderTotalExcluded);
+        return shareholderTotalDividends - shareholderTotalExcluded;
     }
 
     function setDistributionCriteria(uint256 _minPeriod, uint256 _minDistribution) external override onlyToken {
         minPeriod = _minPeriod;
+        require(_minPeriod > 0);
+
         minDistribution = _minDistribution;
+        require(_minDistribution > 0);
     }
 
     function setReflectionToken(address _reflectionToken, uint256 _reflectionTokenDecimals) external onlyToken {
         reflectionToken = IERC20(_reflectionToken);
+        require(_reflectionToken != address(0), "Address can not be 0");
+
         reflectionTokenDecimals = _reflectionTokenDecimals;
-        minDistribution = 1 * (10 ** reflectionTokenDecimals);
+        require(_reflectionTokenDecimals > 0);
     }
 
     function setShare(address shareholder, uint256 amount) external override onlyToken {
@@ -939,14 +739,16 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
         if (amount > 0 && shares[shareholder].amount == 0) {
             addShareholder(shareholder);
         }
-        
+
         else if (amount == 0 && shares[shareholder].amount > 0) {
             removeShareholder(shareholder);
         }
 
-        totalShares = totalShares.sub(shares[shareholder].amount).add(amount);
+        totalShares = totalShares - shares[shareholder].amount + amount;
         shares[shareholder].amount = amount;
         shares[shareholder].totalExcluded = getCumulativeDividends(shares[shareholder].amount);
+
+        emit ShareSet(shareholder, amount);
     }
 
     function addShareholder(address shareholder) internal {
@@ -959,11 +761,17 @@ contract LynxDividendDistributor is ILynxDividendDistributor {
         shareholderIndexes[shareholders[shareholders.length-1]] = shareholderIndexes[shareholder];
         shareholders.pop();
     }
+
+    event Deposited(uint256 amount, uint256 totalDividends, uint256 dividendsPerShare);
+
+    event DividendClaimed(address indexed from);
+
+    event Processed(uint256 shareholderCount, uint256 gasUsed, uint256 gasLeft, uint256 iterations);
+
+    event ShareSet(address indexed shareholder, uint256 amount);
 }
 
 contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
-    using SafeMath for uint256;
-
     uint256 public constant MASK = type(uint128).max;
 
     string constant _name = "Lynx";
@@ -971,21 +779,21 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
 
     uint256 public _totalSupply = 100_000_000 * (10 ** _decimals);
     uint8 constant _decimals = 18;
-   
-    uint256 public _maxTxAmount = _totalSupply.div(100);
-    uint256 public _maxWallet = _totalSupply.div(50);
+
+    uint256 public _maxTxAmount = _totalSupply / 100;
+    uint256 public _maxWallet = _totalSupply / 50;
 
     bool public transferEnabled = true;
 
     // CONTRACT ADDRESSES
     address public burnFeeReceiver = 0x000000000000000000000000000000000000dEaD;
-    address public treasuryFeeReceiver = 0x0000000000000000000000000000000000000000;
-    address public devFeeReceiver = 0x0000000000000000000000000000000000000000;
+    address public treasuryFeeReceiver = 0x2A926F3a919e3A6d4aad331c8C6ce1Dc5C01d93C;
+    address public devFeeReceiver = 0x9fD51d0BA7374c9b1Ffb47ee208AE9131B17FEdC;
 
     address public reflectionToken = 0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664;
     address public WAVAX = 0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7;
 
-    address public dexPair = 0x0000000000000000000000000000000000000000; 
+    address public dexPair = 0x0000000000000000000000000000000000000000;
     address dexPair2 = 0x0000000000000000000000000000000000000000;
     address dexPair3 = 0x0000000000000000000000000000000000000000;
     address ROUTERADDR = 0x60aE616a2155Ee3d9A68541Ba4544862310933d4;
@@ -998,21 +806,21 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
     uint256  public buyBurnFee = 50;
     uint256  public buyTreasuryFee = 40;
     uint256  public buyDevFee = 10;
-    uint256  public totalBuyFee = buyReflectionFee.add(buyBurnFee).add(buyTreasuryFee).add(buyDevFee);
+    uint256  public totalBuyFee = buyReflectionFee + buyBurnFee + buyTreasuryFee + buyDevFee;
 
     // SELL FEE
     uint256  public sellReflectionFee = 100;
     uint256  public sellBurnFee = 20;
     uint256  public sellTreasuryFee = 20;
     uint256  public sellDevFee = 10;
-    uint256  public totalSellFee = sellReflectionFee.add(sellBurnFee).add(sellTreasuryFee).add(sellDevFee);
+    uint256  public totalSellFee = sellReflectionFee + sellBurnFee + sellTreasuryFee + sellDevFee;
 
     // TRANSFER FEE
     uint256  public transferReflectionFee = 0;
     uint256  public transferBurnFee = 0;
     uint256  public transferTreasuryFee = 0;
     uint256  public transferDevFee = 0;
-    uint256  public totalTransferFee = transferReflectionFee.add(transferBurnFee).add(transferTreasuryFee).add(transferDevFee);
+    uint256  public totalTransferFee = transferReflectionFee + transferBurnFee + transferTreasuryFee + transferDevFee;
 
     uint256  feeDenominator = 1000;
 
@@ -1059,7 +867,7 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
 
         approve(ROUTERADDR, _totalSupply);
         approve(address(pair), _totalSupply);
-        _balances[msg.sender] = _totalSupply;
+        _balances[msg.sender] = _totalSupply;       
         emit Transfer(address(0), msg.sender, _totalSupply);
     }
 
@@ -1074,13 +882,9 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         require(amount <= _maxTxAmount || isTxLimitExempt[sender], "TX Limit Exceeded");
     }
 
-    function launched() internal view returns (bool) {
-        return launchedAt != 0;
-    }
-
     function _basicTransfer(address sender, address recipient, uint256 amount) internal returns (bool) {
-        _balances[sender] = _balances[sender].sub(amount, "Insufficient Balance");
-        _balances[recipient] = _balances[recipient].add(amount);
+        _balances[sender] = _balances[sender] - amount;
+        _balances[recipient] = _balances[recipient] + amount;
         return true;
     }
 
@@ -1100,8 +904,8 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         if (!isSell && !_isFree[recipient]) {
             require((_balances[recipient] + amount) < _maxWallet, "Max wallet has been triggered");
         }
-                         
-        _balances[sender] = _balances[sender].sub(amount, "Insufficient Balance");
+
+        _balances[sender] = _balances[sender] - amount;
 
         uint256 amountReceived = shouldTakeFee(sender) ? takeFee(sender, recipient, amount) : amount;
         currentFeeAmount = amount - amountReceived;
@@ -1113,15 +917,15 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
                 }
             }
         }
-      
-        _balances[recipient] = _balances[recipient].add(amountReceived);
+
+        _balances[recipient] = _balances[recipient] + amountReceived;
 
         if (!isDividendExempt[sender]) {
             try distributor.setShare(sender, _balances[sender]) {} catch {}
         }
-        
+
         if (!isDividendExempt[recipient]) {
-            try distributor.setShare(recipient, _balances[recipient]) {}  catch {} 
+            try distributor.setShare(recipient, _balances[recipient]) {}  catch {}
         }
 
         try distributor.process(distributorGas) {} catch {}
@@ -1140,91 +944,91 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         uint256 amountTreasury;
         uint256 amountDev;
 
-        bool isBuy = sender == dexPair ||sender == dexPair2 || sender == dexPair3 || sender == pair || sender == ROUTERADDR; 
+        bool isBuy = sender == dexPair ||sender == dexPair2 || sender == dexPair3 || sender == pair || sender == ROUTERADDR;
         bool isSell = recipient == dexPair || recipient == dexPair2 || recipient == dexPair3 || recipient == pair || recipient == ROUTERADDR;
 
-        if (isBuy) { 
+        if (isBuy) {
             if (buyReflectionFee > 0) {
-            amountReflection = amount.mul(buyReflectionFee).div(feeDenominator);
-            _balances[address(this)] = _balances[address(this)].add(amountReflection);
+            amountReflection = amount * buyReflectionFee / feeDenominator;
+            _balances[address(this)] = _balances[address(this)] + amountReflection;
             emit Transfer(sender, address(this), amountReflection);
             }
 
             if (buyBurnFee > 0) {
-            amountBurn = amount.mul(buyBurnFee).div(feeDenominator);
-            _balances[burnFeeReceiver] = _balances[burnFeeReceiver].add(amountBurn);
+            amountBurn = amount * buyBurnFee / feeDenominator;
+            _balances[burnFeeReceiver] = _balances[burnFeeReceiver] + amountBurn;
             emit Transfer(sender, burnFeeReceiver, amountBurn);
             }
 
             if (buyTreasuryFee > 0) {
-            amountTreasury = amount.mul(buyTreasuryFee).div(feeDenominator);
-            _balances[treasuryFeeReceiver] = _balances[treasuryFeeReceiver].add(amountTreasury);
+            amountTreasury = amount * buyTreasuryFee / feeDenominator;
+            _balances[treasuryFeeReceiver] = _balances[treasuryFeeReceiver] + amountTreasury;
             emit Transfer(sender, treasuryFeeReceiver, amountTreasury);
             }
 
             if (buyDevFee > 0) {
-            amountDev = amount.mul(buyDevFee).div(feeDenominator);
-            _balances[devFeeReceiver] = _balances[devFeeReceiver].add(amountDev);
+            amountDev = amount * buyDevFee / feeDenominator;
+            _balances[devFeeReceiver] = _balances[devFeeReceiver] + amountDev;
             emit Transfer(sender, devFeeReceiver, amountDev);
             }
 
-            return amount.sub(amountReflection).sub(amountBurn).sub(amountTreasury).sub(amountDev);      
-        } 
+            return amount - amountReflection - amountBurn - amountTreasury - amountDev;
+        }
 
         else if (isSell) {
             if (sellReflectionFee > 0) {
-            amountReflection = amount.mul(sellReflectionFee).div(feeDenominator);
-            _balances[address(this)] = _balances[address(this)].add(amountReflection);
+            amountReflection = amount * sellReflectionFee / feeDenominator;
+            _balances[address(this)] = _balances[address(this)] + amountReflection;
             emit Transfer(sender, address(this), amountReflection);
             }
 
             if (sellBurnFee > 0) {
-            amountBurn = amount.mul(sellBurnFee).div(feeDenominator);
-            _balances[burnFeeReceiver] = _balances[burnFeeReceiver].add(amountBurn);
+            amountBurn = amount * sellBurnFee / feeDenominator;
+            _balances[burnFeeReceiver] = _balances[burnFeeReceiver] + amountBurn;
             emit Transfer(sender, burnFeeReceiver, amountBurn);
             }
 
             if (sellTreasuryFee > 0) {
-            amountTreasury = amount.mul(sellTreasuryFee).div(feeDenominator);
-            _balances[treasuryFeeReceiver] = _balances[treasuryFeeReceiver].add(amountTreasury);
+            amountTreasury = amount * sellTreasuryFee / feeDenominator;
+            _balances[treasuryFeeReceiver] = _balances[treasuryFeeReceiver] + amountTreasury;
             emit Transfer(sender, treasuryFeeReceiver, amountTreasury);
             }
 
             if (sellDevFee > 0) {
-            amountDev = amount.mul(sellDevFee).div(feeDenominator);
-            _balances[devFeeReceiver] = _balances[devFeeReceiver].add(amountDev);
+            amountDev = amount * sellDevFee / feeDenominator;
+            _balances[devFeeReceiver] = _balances[devFeeReceiver] + amountDev;
             emit Transfer(sender, devFeeReceiver, amountDev);
             }
 
-            return amount.sub(amountReflection).sub(amountBurn).sub(amountTreasury).sub(amountDev);     
+            return amount - amountReflection - amountBurn - amountTreasury - amountDev;
         }
 
         else {
             if (transferReflectionFee > 0) {
-            amountReflection = amount.mul(transferReflectionFee).div(feeDenominator);
-            _balances[address(this)] = _balances[address(this)].add(amountReflection);
+            amountReflection = amount * transferReflectionFee / feeDenominator;
+            _balances[address(this)] = _balances[address(this)] + amountReflection;
             emit Transfer(sender, address(this), amountReflection);
             }
 
             if (transferBurnFee > 0) {
-            amountBurn = amount.mul(transferBurnFee).div(feeDenominator);
-            _balances[burnFeeReceiver] = _balances[burnFeeReceiver].add(amountBurn);
+            amountBurn = amount * transferBurnFee / feeDenominator;
+            _balances[burnFeeReceiver] = _balances[burnFeeReceiver] + amountBurn;
             emit Transfer(sender, burnFeeReceiver, amountBurn);
             }
 
             if (transferTreasuryFee > 0) {
-            amountTreasury = amount.mul(transferTreasuryFee).div(feeDenominator);
-            _balances[treasuryFeeReceiver] = _balances[treasuryFeeReceiver].add(amountTreasury);
+            amountTreasury = amount * transferTreasuryFee / feeDenominator;
+            _balances[treasuryFeeReceiver] = _balances[treasuryFeeReceiver] + amountTreasury;
             emit Transfer(sender, treasuryFeeReceiver, amountTreasury);
             }
 
             if (transferDevFee > 0) {
-            amountDev = amount.mul(transferDevFee).div(feeDenominator);
-            _balances[devFeeReceiver] = _balances[devFeeReceiver].add(amountDev);
+            amountDev = amount * transferDevFee / feeDenominator;
+            _balances[devFeeReceiver] = _balances[devFeeReceiver] + amountDev;
             emit Transfer(sender, devFeeReceiver, amountDev);
             }
 
-            return amount.sub(amountReflection).sub(amountBurn).sub(amountTreasury).sub(amountDev);      
+            return amount - amountReflection - amountBurn - amountTreasury - amountDev;
         }
     }
 
@@ -1243,22 +1047,10 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
 
         router.swapExactTokensForAVAXSupportingFeeOnTransferTokens(amountToSwap, 0, path, address(this), block.timestamp);
 
-        uint256 amountAVAX = address(this).balance.sub(balanceBefore);
+        uint256 amountAVAX = address(this).balance - balanceBefore;
         uint256 amountAVAXReflection = amountAVAX;
 
         try distributor.deposit {value: amountAVAXReflection} () {} catch {}
-    }
-
-    function buyTokens(uint256 amount, address to) internal swapping {
-        address[] memory path = new address[](2);
-        path[0] = WAVAX;
-        path[1] = address(this);
-
-        router.swapExactAVAXForTokensSupportingFeeOnTransferTokens {
-            value: amount
-        }
-
-        (0, path, to, block.timestamp);
     }
 
     // =============================================================
@@ -1305,14 +1097,14 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
 
     function transferFrom(address sender, address recipient, uint256 amount) external override returns (bool) {
         if (_allowances[sender][msg.sender] != _totalSupply) {
-            _allowances[sender][msg.sender] = _allowances[sender][msg.sender].sub(amount, "Insufficient Allowance");
+            _allowances[sender][msg.sender] = _allowances[sender][msg.sender] - amount;
         }
 
         return _transferFrom(sender, recipient, amount);
     }
 
     function getCirculatingSupply() public view returns (uint256) {
-        return _totalSupply.sub(balanceOf(DEAD)).sub(balanceOf(ZERO));
+        return _totalSupply - balanceOf(DEAD) - balanceOf(ZERO);
     }
 
     function getDexPair() external view returns (address) {
@@ -1327,7 +1119,7 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         return dexPair3;
     }
 
-    function getIsFree(address holder) public view onlyOwner returns (bool) {
+    function getIsFree(address holder) public view returns (bool) {
         return _isFree[holder];
     }
 
@@ -1348,7 +1140,7 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
     }
 
     function getSwapAmount(uint256 _transferAmount) public view returns (uint256) {
-        uint256 amountFromTxnPercMax = _transferAmount.mul(swapPercentMax).div(100);
+        uint256 amountFromTxnPercMax = _transferAmount * swapPercentMax / 100;
         return amountFromTxnPercMax > swapThresholdMax ? swapThresholdMax : amountFromTxnPercMax;
     }
 
@@ -1382,24 +1174,19 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
 
     function swapBackManual(uint256 _amount)  external authorized {
         if (_balances[address(this)] >= _amount) {
-            uint256 swapAmount = _amount;  
+            uint256 swapAmount = _amount;
             uint256 balanceBefore = address(this).balance;
 
             address[] memory path = new address[](2);
             path[0] = address(this);
             path[1] = WAVAX;
-                
+
             router.swapExactTokensForAVAXSupportingFeeOnTransferTokens(swapAmount, 0, path, address(this), block.timestamp);
 
-            uint256 amountAVAX = address(this).balance.sub(balanceBefore);
+            uint256 amountAVAX = address(this).balance - balanceBefore;
 
             try distributor.deposit {value: amountAVAX} () {} catch {}
         }
-    }
-
-    function sweep() external onlyOwner {
-        uint256 balance = address(this).balance;
-        payable(msg.sender).transfer(balance);
     }
 
     function setReflectionToken(address _reflectionToken, uint256 _reflectionTokenDecimals) external authorized {
@@ -1418,12 +1205,12 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
     // LIMIT SETTINGS
 
     function setMaxWallet(uint256 amount) external authorized {
-        require(amount >= _totalSupply / 100); // min. 1% 
+        require(amount >= _totalSupply / 100); // min. 1%
         _maxWallet = amount;
     }
 
     function setTxLimit(uint256 amount) external authorized {
-        require(amount >= _totalSupply / 200); // min. 0.5% 
+        require(amount >= _totalSupply / 200); // min. 0.5%
         _maxTxAmount = amount;
     }
 
@@ -1434,8 +1221,10 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         buyBurnFee = _buyBurnFee;
         buyTreasuryFee = _buyTreasuryFee;
         buyDevFee = _buyDevFee;
-        totalBuyFee = _buyReflectionFee.add(_buyBurnFee).add(_buyTreasuryFee).add(_buyDevFee);
-        require(totalBuyFee < feeDenominator / 5); // max. 20%      
+        totalBuyFee = _buyReflectionFee + _buyBurnFee + _buyTreasuryFee + _buyDevFee;
+        require(totalBuyFee < feeDenominator / 5); // max. 20%
+
+        emit BuyFeesSet(_buyReflectionFee, _buyBurnFee, _buyTreasuryFee, _buyDevFee, totalBuyFee);
     }
 
     function setSellFees(uint256 _sellReflectionFee, uint256 _sellBurnFee, uint256 _sellTreasuryFee, uint256 _sellDevFee) external authorized {
@@ -1443,8 +1232,10 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         sellBurnFee = _sellBurnFee;
         sellTreasuryFee = _sellTreasuryFee;
         sellDevFee = _sellDevFee;
-        totalSellFee = _sellReflectionFee.add(_sellBurnFee).add(_sellTreasuryFee).add(_sellDevFee);
-        require(totalSellFee < feeDenominator / 5); // max. 20% 
+        totalSellFee = _sellReflectionFee + _sellBurnFee + _sellTreasuryFee + _sellDevFee;
+        require(totalSellFee < feeDenominator / 5); // max. 20%
+
+        emit SellFeesSet(_sellReflectionFee, _sellBurnFee, _sellTreasuryFee, _sellDevFee, totalSellFee);
     }
 
     function setTransferFees(uint256 _transferReflectionFee, uint256 _transferBurnFee, uint256 _transferTreasuryFee, uint256 _transferDevFee) external authorized {
@@ -1452,8 +1243,10 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         transferBurnFee = _transferBurnFee;
         transferTreasuryFee = _transferTreasuryFee;
         transferDevFee = _transferDevFee;
-        totalTransferFee = _transferReflectionFee.add(_transferBurnFee).add(_transferTreasuryFee).add(transferDevFee);
-        require(totalTransferFee < feeDenominator / 10); // max. 10% 
+        totalTransferFee = _transferReflectionFee + _transferBurnFee + _transferTreasuryFee + transferDevFee;
+        require(totalTransferFee < feeDenominator / 10); // max. 10%
+
+        emit TransferFeesSet(_transferReflectionFee, _transferBurnFee, _transferTreasuryFee, _transferDevFee, totalTransferFee);
     }
 
     function setFeeReceivers(address _treasuryFeeReceiver, address _devFeeReceiver) external authorized {
@@ -1531,4 +1324,10 @@ contract Lynx is IERC20, IERC20Metadata, LynxAuthorization {
         swapPercentMax = _maxPercTransfer;
         swapThresholdMax = _max;
     }
+
+    event BuyFeesSet(uint256 _buyReflectionFee, uint256 _buyBurnFee, uint256 _buyTreasuryFee, uint256 _buyDevFee, uint256 totalBuyFee);
+
+    event SellFeesSet(uint256 _sellReflectionFee, uint256 _sellBurnFee, uint256 _sellTreasuryFee, uint256 _sellDevFee, uint256 totalSellFee);
+
+    event TransferFeesSet(uint256 _transferReflectionFee, uint256 _transferBurnFee, uint256 _transferTreasuryFee, uint256 _transferDevFee, uint256 totalTransferFee);
 }
